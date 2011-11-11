@@ -1,0 +1,53 @@
+<%= javascript_include_tag 'jquery' %>
+<%= javascript_include_tag 'jquery.form' %>
+<%= javascript_include_tag 'facebox' %>
+<%= stylesheet_link_tag "facebox" %>
+<%= stylesheet_link_tag "style" %>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	 $(".contimage").hover(function() {
+			$(this).animate({
+				opacity:1
+			},200);
+		}, function() {
+			$(this).animate({
+				opacity:0.8
+			},200);
+		});
+		$('#submitform').ajaxForm({
+			target: '#error',
+			success: function() {
+			$('#error').fadeIn('slow');
+			}
+	});
+$('a[rel*=facebox]').facebox()
+	 });
+</script>
+
+
+
+<% if @users.blank?  %>
+<h1><p style="color:aquamarine; ">NO USER PRESENT HERE</p></h1>
+
+<% else %>
+<h2 style="color:darkcyan;"><%= "No of current users: #{@users.size}"%></h2>
+<h3><p style="color:blueviolet">LIST OF USERS</p></h3>
+<div style="padding-left:400px; color:#000;">
+<table  border="0" padding="0" mangine="0" ><tr style=" background:deepskyblue; color:#000; "><th style="color:#000;"> Number</th><th style="color:#000;"> Name</th><th style="color:#000;"> Email_id</th></tr>
+<% i = 1
+     for user in @users %>
+  <div><tr style="color:#666; background:bisque "><td style="color:#000;"><%=  "#{i}"%></td> <td style="color:#000;"><%= "#{user.name}"%></td> <td style="color:#000;"><%= "#{user.email_id}"%></td></tr></div>
+
+<%
+     i += 1
+ end %>
+</table>
+  </div>
+<% end %>
+<br></br>
+<br></br>
+
+<%=link_to 'Enter New User', new_user_path, :class=> "contimage",:rel=> "facebox" %>
+
+<%= render :partial => "user" ,:collection => @users %>
